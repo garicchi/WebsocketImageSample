@@ -2,6 +2,7 @@ import tornado.ioloop
 import tornado.web
 import tornado.websocket
 import base64
+import json
 
 cl = []
 class MessageServer(tornado.websocket.WebSocketHandler):
@@ -15,10 +16,15 @@ class MessageServer(tornado.websocket.WebSocketHandler):
 
     def on_message(self,message):
         for client in cl:
-            print('receive!')
-            file = base64.b64decode(message)
-            with open('file.png','wb') as f:
-                f.write(file)
+            print(message)
+            messageObj = json.loads(message)
+            type = messageObj['type']
+            data = messageObj['data']
+            print(type)
+            if type == 'picture':
+                file = base64.b64decode(data)
+                with open('file.png','wb') as f:
+                    f.write(file)
 
             #print(message)
             #client.write_message(message)
