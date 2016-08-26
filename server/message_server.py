@@ -13,8 +13,10 @@ class MessageServer(tornado.websocket.WebSocketHandler):
     def open(self):
         if self not in cl:
             cl.append(self)
+            print('append client')
 
     def on_message(self,message):
+        print('receive message')
         for client in cl:
             print(message)
             messageObj = json.loads(message)

@@ -41,7 +41,12 @@ public class WebsocketMessenger extends Endpoint
 
         try {
 
-            this.session = container.connectToServer(WebsocketMessenger.class, config, URI.create(URL));
+            this.session = container.connectToServer(new Endpoint() {
+                @Override
+                public void onOpen(Session session, EndpointConfig endpointConfig) {
+                    
+                }
+            }, config, URI.create(URL));
 
 
         } catch (DeploymentException e) {
